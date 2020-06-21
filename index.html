@@ -1,0 +1,86 @@
+<html>
+
+<head>
+    <style>
+        table {
+            width: 100%;
+            height: 80%;
+        }
+        table,
+        th,
+        td {
+            text-align: center;
+            table-layout: fixed;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="sample.js"></script>
+    <script>
+        let times=[],asso=[]
+        let tab=``, lines1 = ``, lines2 = ``,lines3 = ``,slotColor, i, j, k,slotNum
+
+         for (k = 0; k < data.length; k++){
+            times.push(data[k]._id.slotstarttime)  //getting all time slots
+            asso.push(data[k]._id.associatename)   //getting all associates
+        }
+        times=Array.from(new Set(times))  
+        asso = Array.from(new Set(asso))
+        times=times.sort()
+        asso=asso.sort()
+        
+        for(i=-1; i<times.length; i++)
+        {
+            if(i==-1)
+            {
+                lines1=``
+                for(j=0;j<asso.length;j++)
+                {
+                    lines1+=`<th>`+asso[j]+`</th>`
+                }
+                lines1=`<tr><th>   </th>`+lines1+`</tr>`
+            }
+
+            else{
+                lines2=``
+                for (j = 0; j < asso.length; j++) {
+                   for(k=0;k<data.length;k++){
+                        if(data[k]._id.slotstarttime==times[i] && data[k]._id.associatename==asso[j] )
+                        {
+                            if(data[k].slotsAvailable==0){
+                                slotColor = `style="background-color:red"`
+                                slotNum=`FULL`
+                                break;
+                            }
+                            else
+                            {
+                                slotColor = `style="background-color:green"`
+                                slotNum = data[k].slotsAvailable
+                                break;
+                            }
+                        }
+                        else{
+                            slotColor = ` `
+                            slotNum=` `
+                        }
+                    }
+                    lines2 += `<td `+ slotColor+`>`+slotNum+`</td>`
+                }
+                lines3+= `<tr><td>`+times[i]+`</td>` + lines2 + `</tr>`
+            }
+        }
+        let lines=lines1+lines3
+        tab=` <table>
+       `+lines+`
+    </table>`
+     window.onload = function name() {
+         document.getElementById("grid").innerHTML = tab
+      }
+    
+    console.log("Time:"+ asso.length)
+    </script>
+<p id="grid"></p>
+</body>
+
+</html>
